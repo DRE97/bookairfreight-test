@@ -1,0 +1,12 @@
+
+#custom-button {
+    margin-bottom: 10px;
+    width: 120px;
+    padding: 10px;
+    border: none;
+    color: white;
+}
+
+.primary {
+    background-color: #3898ec;
+}
