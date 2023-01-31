@@ -1,0 +1,12 @@
+
+label {
+    font-family: sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+}
+
+.quote-inputs-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
