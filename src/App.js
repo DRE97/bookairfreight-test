@@ -5,7 +5,7 @@ import SelectInput from './components/SelectInput/SelectInput'
 import CustomButton from './components/CustomButton/CustomButton'
 import CustomQuote from './components/CustomQuote/CustomQuote'
 import ErrorMessage from './components/ErrorMessage/ErrorMessage'
-import { shippingOptions, defaultShippingValue, validateRequiredInputs } from './utils/utils'
+import { shippingOptions, defaultShippingValue, validateRequiredInputs, getShippingDays } from './utils/utils'
 
 function App() {
   const [startingCountry, setStartingCountry] = useState("")
@@ -14,16 +14,21 @@ function App() {
   const [shippingChannel, setShippingChannel] = useState(defaultShippingValue)
   const [isValidQuote, setIsValidQuote] = useState(false)
   const [errorMessage, setErrorMessage] = useState(null)
+  const [quoteData, setQuoteData] = useState({})
 
   const calculateQuote = () => {
-    const isValid = validateRequiredInputs({
+    const dataToValidate = {
       startingCountry,
       destinationCountry,
       quotePrice,
       shippingChannel
-    })
+    }
+    const isValid = validateRequiredInputs(dataToValidate)
     setIsValidQuote(isValid)
     setErrorMessage(isValid ? null : "Missing Information!")
+    
+    const newDays = getShippingDays(shippingChannel)
+    setQuoteData({...dataToValidate, shippingDays: newDays})
   }
 
   return (
@@ -36,7 +41,7 @@ function App() {
         <CustomButton variant="primary" label="Create Quote" onClickAction={calculateQuote} />
       </div>
       {isValidQuote && (
-        <CustomQuote />
+        <CustomQuote quoteData={quoteData} />
       )}
       {errorMessage && (
         <ErrorMessage message={errorMessage} />
